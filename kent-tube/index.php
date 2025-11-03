@@ -1,59 +1,42 @@
-<!doctype html>
+<?php
+  include("database.php");
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kent-Tube — Home</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>registration</title>
 </head>
 <body>
-  <div class="app layout-home">
-    <aside class="sidebar">
-      <div class="logo-row">
-        <div class="logo-mark">🐺</div>
-        <div class="logo-text">KENT-TUBE</div>
-      </div>
-      <nav class="side-nav" aria-label="Main">
-        <button class="nav-btn active" data-page="home">Home</button>
-        <button class="nav-btn" data-page="history">History</button>
-        <button class="nav-btn" data-page="saved">Saved</button>
-        <button class="nav-btn" data-page="playlists">Playlists</button>
-      </nav>
-    </aside>
-
-    <main class="main">
-      <header class="topbar">
-        <button class="settings" title="Settings">⚙️</button>
-        <div class="search-wrap"><input id="search" placeholder="Search Bar"></div>
-        <div class="profile"> <div class="avatar"></div><div class="profile-name">Isaac</div></div>
-      </header>
-
-      <section class="hero">
-        <img src="" alt="Kent-Tube logo" class="hero-logo" aria-hidden="true">
-      </section>
-
-      <section class="content">
-        <h2>Recents from your courses</h2>
-        <div class="carousel">
-          <div class="video-shelf">
-            <div class="video-card placeholder">Video</div>
-            <div class="video-card placeholder">Video</div>
-            <div class="video-card placeholder">Video</div>
-          </div>
-          <button class="carousel-next">→</button>
-        </div>
-
-        <h3>Courses</h3>
-        <div id="courseCards" class="list-courses">
-          <!-- course rows inserted by JS -->
-        </div>
-      </section>
-
-    </main>
-
-    <div class="floating-brand">🐺</div>
-  </div>
-
-  <script src="app.js"></script>
+    <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+        <h2>Welcome to Kent-Tube</h2>
+        username:<br>
+        <input type="text" name="username" required><br>
+        password:<br>
+        <input type="password" name="password" required><br><br>
+        <input type="submit" name="submit" value="register">
+    </form>
 </body>
 </html>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
+    $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+
+    $sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
+    if(empty($username) || empty($password)){
+        echo "Please fill in all fields.";
+    } else {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO users (user, password)
+        VALUES ('$username', '$hash')";
+        mysqli_query($conn, $sql);
+        echo "Registration successful.";
+        }
+
+
+    }
+
+mysqli_close($conn);
+?>
