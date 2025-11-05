@@ -11,10 +11,10 @@ document.addEventListener('click', (e)=>{
 
 function navigate(page){
   // simple navigation for demo: load corresponding HTML pages where applicable
-  if(page==='home') location.href = 'index.html';
-  if(page==='history') location.href = 'history.html';
-  if(page==='saved') location.href = 'saved.html';
-  if(page==='playlists') location.href = 'playlists.html';
+  if(page==='home') location.href = 'home.php';
+  if(page==='history') location.href = 'history.php';
+  if(page==='saved') location.href = 'saved.php';
+  if(page==='playlists') location.href = 'playlists.php';
 }
 
 function createCourseMock(){
@@ -49,7 +49,7 @@ function renderHome(){
   courses.forEach(c=>{
     const div = document.createElement('div'); div.className='course-row';
     div.textContent = c.title;
-    div.addEventListener('click', ()=> location.href = `course.html?id=${c.id}`);
+    div.addEventListener('click', ()=> location.href = `course.php?id=${c.id}`);
     container.appendChild(div);
   });
 
@@ -62,7 +62,7 @@ function renderHome(){
       const card = document.createElement('div'); card.className='video-card';
       card.textContent = v.title;
       card.dataset.vid = v.id;
-      card.addEventListener('click', ()=> location.href = `player.html?vid=${encodeURIComponent(v.id)}`);
+      card.addEventListener('click', ()=> location.href = `player.php?vid=${encodeURIComponent(v.id)}`);
       shelf.appendChild(card);
     });
   }
@@ -115,7 +115,7 @@ function renderCourseTab(name){
       const playlistName = courseId ? `${courseId}-playlist-${i+1}` : `Playlist ${i+1}`;
       const a = document.createElement('a');
       a.className = 'video-card';
-      a.href = `playlist.html?name=${encodeURIComponent(playlistName)}`;
+      a.href = `playlist.php?name=${encodeURIComponent(playlistName)}`;
       a.textContent = courseId ? `Playlist ${i+1}` : `Playlist ${i+1}`;
       container.appendChild(a);
     }
@@ -142,7 +142,7 @@ function renderCourseTab(name){
 function createVideoCard(v){
   const card = document.createElement('div'); card.className='video-card';
   card.textContent = v.title || 'Video';
-  card.addEventListener('click', ()=> location.href = `player.html?vid=${encodeURIComponent(v.id)}`);
+  card.addEventListener('click', ()=> location.href = `player.php?vid=${encodeURIComponent(v.id)}`);
   return card;
 }
 
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const container = document.getElementById('playlistVideos');
   if(!container) return;
   for(let i=1;i<=8;i++){
-    const a = document.createElement('a'); a.className='video-card'; a.href = `player.html?vid=${encodeURIComponent('playlist-'+i)}`;
+    const a = document.createElement('a'); a.className='video-card'; a.href = `player.php?vid=${encodeURIComponent('playlist-'+i)}`;
     a.textContent = 'Video';
     container.appendChild(a);
   }
