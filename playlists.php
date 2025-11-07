@@ -28,12 +28,12 @@
         <h1>Playlists</h1>
         <hr>
         <div class="two-col-grid">
-          <a class="video-card placeholder" href="playlist.html?name=Playlist%201">Playlist</a>
-          <a class="video-card placeholder" href="playlist.html?name=Playlist%202">Playlist</a>
-          <a class="video-card placeholder" href="playlist.html?name=Playlist%203">Playlist</a>
-          <a class="video-card placeholder" href="playlist.html?name=Playlist%204">Playlist</a>
-          <a class="video-card placeholder" href="playlist.html?name=Playlist%205">Playlist</a>
-          <a class="video-card placeholder" href="playlist.html?name=Playlist%206">Playlist</a>
+          <a class="video-card placeholder" href="playlist.php?name=Playlist%201">Playlist</a>
+          <a class="video-card placeholder" href="playlist.php?name=Playlist%202">Playlist</a>
+          <a class="video-card placeholder" href="playlist.php?name=Playlist%203">Playlist</a>
+          <a class="video-card placeholder" href="playlist.php?name=Playlist%204">Playlist</a>
+          <a class="video-card placeholder" href="playlist.php?name=Playlist%205">Playlist</a>
+          <a class="video-card placeholder" href="playlist.php?name=Playlist%206">Playlist</a>
         </div>
       </section>
 
