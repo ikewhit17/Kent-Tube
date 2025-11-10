@@ -132,7 +132,6 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .video-player video{
   width:auto;
   height:100%;
-  max-height:45vh;
   display:block;
   object-fit: cover;
 }
