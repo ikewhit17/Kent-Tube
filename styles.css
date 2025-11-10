@@ -120,3 +120,4 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
   font-weight:600;
   color:#222;
 }
+.main .content{max-width:1200px; margin:0 auto;}
