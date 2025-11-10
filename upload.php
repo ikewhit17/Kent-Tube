@@ -18,7 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // 2) Validate file
   if (!$errors) {
     $file = $_FILES['video'];
-    if ($file['size'] > 1024*1024*1024) { // 1GB
+
+    // 1 GiB limit (adjust as needed)
+    if ($file['size'] > 1024*1024*1024) { 
       $errors[] = 'File too large.';
     }
 
@@ -32,26 +34,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Safe filename in uploads/
-    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $ext  = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $base = bin2hex(random_bytes(8)); // random name
-    $relPath = "uploads/{$base}." . strtolower($ext);
+    $relPath = "uploads/{$base}.{$ext}";
     $absPath = __DIR__ . "/" . $relPath;
+
+    // Ensure thumbs dir exists
+    $thumbDir = __DIR__ . "/uploads/thumbs";
+    if (!is_dir($thumbDir)) { @mkdir($thumbDir, 0775, true); }
 
     if (!$errors) {
       if (!move_uploaded_file($file['tmp_name'], $absPath)) {
         $errors[] = 'Failed to store file.';
       } else {
-        // 3) Insert DB row
-        $thumb = null; // add later if you generate thumbnails
+        // 3) Try to make a thumbnail with ffmpeg
+        $thumbRel = "uploads/thumbs/{$base}.jpg";
+        $thumbAbs = __DIR__ . "/" . $thumbRel;
+
+        // Default thumb path if generation fails
+        $fallbackThumbRel = 'assets/default-thumb.jpg';
+
+        // Compute a seek time using ffprobe (about 1/3 into video), fallback 2s
+        $seek = '00:00:02';
+        $duration = null;
+
+        // Only attempt ffmpeg/ffprobe if shell_exec is available
+        if (function_exists('shell_exec')) {
+          $cmdProbe = "ffprobe -v error -select_streams v:0 -show_entries format=duration -of csv=p=0 "
+                    . escapeshellarg($absPath) . " 2>&1";
+          $probeOut = @shell_exec($cmdProbe);
+          $duration = is_numeric(trim($probeOut)) ? (float)trim($probeOut) : null;
+
+          if (is_numeric($duration) && $duration > 4) {
+            $seekSeconds = max(1, (int)($duration / 3));
+            $seek = gmdate("H:i:s", $seekSeconds);
+          }
+
+          $cmdThumb = "ffmpeg -ss {$seek} -i " . escapeshellarg($absPath)
+                    . " -frames:v 1 -vf 'scale=640:-1' -y "
+                    . escapeshellarg($thumbAbs) . " 2>&1";
+          @shell_exec($cmdThumb);
+        }
+
+        // If ffmpeg failed, use fallback
+        if (!file_exists($thumbAbs) || filesize($thumbAbs) === 0) {
+          $thumbRel = $fallbackThumbRel;
+        }
+
+        // 4) Insert DB row
         $stmt = mysqli_prepare($conn, "INSERT INTO videos
           (title, description, file_path, thumbnail_path, uploader, category)
           VALUES (?,?,?,?,?,?)");
-        $uploader = 'ike'; // or pull from session/login
+
+        $uploader = 'ike'; // or from your session
         mysqli_stmt_bind_param($stmt, "ssssss",
-          $title, $desc, $relPath, $thumb, $uploader, $cat);
+          $title, $desc, $relPath, $thumbRel, $uploader, $cat);
+
         if (!mysqli_stmt_execute($stmt)) {
-          // rollback file if DB insert fails
+          // rollback file(s) if DB insert fails
           @unlink($absPath);
+          if ($thumbRel !== $fallbackThumbRel) { @unlink($thumbAbs); }
           $errors[] = 'DB insert failed.';
         } else {
           $ok = true;
@@ -68,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Upload video — Kent-Tube</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    form {max-width:720px;margin:24px auto;padding:16px;border:1px solid #ccc;border-radius:12px}
+    form {max-width:720px;margin:24px auto;padding:16px;border:1px solid #ccc;border-radius:12px;background:#fff}
     .msg{margin:12px auto;max-width:720px}
     .err{color:#b00}
     .ok{color:#070}
