@@ -158,7 +158,6 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .video-player {
   position: relative;
   width: 100%;
-  max-width: 960px;
   margin: 0 auto;
   background: #000;
   overflow: hidden;
