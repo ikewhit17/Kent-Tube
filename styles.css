@@ -30,7 +30,6 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .floating-brand{position:fixed;right:14px;bottom:14px;background:var(--accent);color:#fff;padding:.6rem;border-radius:10px}
 
 /* player layout */
-.player-area{display:flex;gap:1rem}
 .player-main{flex:2}
 .related{flex:1;display:flex;flex-direction:column;gap:.8rem}
 .desc{background:#eee;padding:1rem;border-radius:6px;margin-top:.75rem}
