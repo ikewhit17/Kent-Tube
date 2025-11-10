@@ -27,6 +27,22 @@
   input, button {
     margin: 5px 0;
   }
+  .login-link {
+  margin-top: 15px;
+}
+
+.login-link button {
+  background: none;
+  border: 1px solid #999;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login-link button:hover {
+  background: #eee;
+}
 </style>
 </head>
 <body>
@@ -36,12 +52,13 @@
         <input type="text" name="username" required><br>
         password:<br>
         <input type="password" name="password" required><br><br>
-        <input type="submit" name="submit" value="register"><br><br>
-    </form><br><br>
-    <form action="login.php" method="get">
-    <button type="submit">Already have an account? Login</button>
-  </form>
-  
+        <input type="submit" name="submit" value="register">
+        <div class="login-link">
+    <button type="button" onclick="window.location.href='login.php'">
+      Already have an account? Login
+    </button>
+  </div>
+    </form>
 </body>
 </html>
 <?php

@@ -32,6 +32,13 @@ $res = mysqli_query($conn, $sql);
     </header>
 
     <section class="content">
+      <h3>Courses</h3>
+<div class="course-buttons">
+  <button class="course-btn" onclick="location.href='course.php'">CS 101 - Intro to Programming</button>
+  <button class="course-btn" onclick="location.href='course.php'">MATH 220 - Calculus II</button>
+  <button class="course-btn" onclick="location.href='course.php'">HIST 200 - Modern History</button>
+  <button class="course-btn" onclick="location.href='course.php'">BIO 150 - General Biology</button>
+</div>
       <h2>Recents from your courses</h2>
       <div class="video-shelf">
         <?php while ($row = mysqli_fetch_assoc($res)): 
@@ -45,7 +52,6 @@ $res = mysqli_query($conn, $sql);
           </a>
         <?php endwhile; ?>
       </div>
-  
       </section>
 
     </main>

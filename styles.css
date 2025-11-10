@@ -63,3 +63,21 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 	.videos-grid{grid-template-columns:1fr}
 	.video-player{height:220px}
 }
+.course-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1rem;
+}
+.course-btn {
+  padding: 10px 16px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.course-btn:hover {
+  background: #ddd;
+}
