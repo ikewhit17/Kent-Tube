@@ -76,6 +76,9 @@ if (is_executable($FFMPEG) && is_executable($FFPROBE) && function_exists('shell_
   $cmdThumb = $FFMPEG . " -ss {$seek} -i " . escapeshellarg($absPath)
            . " -frames:v 1 -vf 'scale=640:-1' -y " . escapeshellarg($thumbAbs) . " 2>&1";
   $ffout = @shell_exec($cmdThumb);
+  if (!file_exists($thumbAbs)) {
+  error_log("THUMB FAIL: $cmdThumb\n---\n$ffout\n");
+}
 } else {
   $ffout = 'ffmpeg/ffprobe not executable or shell_exec disabled';
 }
