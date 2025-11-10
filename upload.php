@@ -59,22 +59,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $duration = null;
 
         // Only attempt ffmpeg/ffprobe if shell_exec is available
-        if (function_exists('shell_exec')) {
-          $cmdProbe = "ffprobe -v error -select_streams v:0 -show_entries format=duration -of csv=p=0 "
-                    . escapeshellarg($absPath) . " 2>&1";
-          $probeOut = @shell_exec($cmdProbe);
-          $duration = is_numeric(trim($probeOut)) ? (float)trim($probeOut) : null;
+        $FFMPEG  = '/usr/bin/ffmpeg';
+$FFPROBE = '/usr/bin/ffprobe';
 
-          if (is_numeric($duration) && $duration > 4) {
-            $seekSeconds = max(1, (int)($duration / 3));
-            $seek = gmdate("H:i:s", $seekSeconds);
-          }
+if (is_executable($FFMPEG) && is_executable($FFPROBE) && function_exists('shell_exec')) {
+  $cmdProbe = $FFPROBE . " -v error -select_streams v:0 -show_entries format=duration -of csv=p=0 "
+            . escapeshellarg($absPath) . " 2>&1";
+  $probeOut = @shell_exec($cmdProbe);
+  $duration = is_numeric(trim($probeOut)) ? (float)trim($probeOut) : null;
 
-          $cmdThumb = "ffmpeg -ss {$seek} -i " . escapeshellarg($absPath)
-                    . " -frames:v 1 -vf 'scale=640:-1' -y "
-                    . escapeshellarg($thumbAbs) . " 2>&1";
-          @shell_exec($cmdThumb);
-        }
+  $seek = '00:00:02';
+  if ($duration && $duration > 4) {
+    $seek = gmdate('H:i:s', max(1, (int)($duration/3)));
+  }
+
+  $cmdThumb = $FFMPEG . " -ss {$seek} -i " . escapeshellarg($absPath)
+           . " -frames:v 1 -vf 'scale=640:-1' -y " . escapeshellarg($thumbAbs) . " 2>&1";
+  $ffout = @shell_exec($cmdThumb);
+} else {
+  $ffout = 'ffmpeg/ffprobe not executable or shell_exec disabled';
+}
 
         // If ffmpeg failed, use fallback
         if (!file_exists($thumbAbs) || filesize($thumbAbs) === 0) {
