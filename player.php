@@ -9,18 +9,17 @@ include "database.php";
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id <= 0) { http_response_code(404); exit('Video not found'); }
 
-// fetch the video
+// fetch video
 $stmt = mysqli_prepare($conn, "SELECT id, title, description, file_path, thumbnail_path, views, upload_date, category, tags, duration FROM videos WHERE id = ?");
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $video = mysqli_fetch_assoc($result);
 if (!$video) { http_response_code(404); exit('Video not found'); }
-
-// optional: increment views
+ // set views
 mysqli_query($conn, "UPDATE videos SET views = views + 1 WHERE id = $id");
 
-// fetch some related videos (same category, exclude current)
+// fetch some related videos (same category, exclude current video)
 $rel = null;
 if (!empty($video['category'])) {
   $rstmt = mysqli_prepare($conn, "SELECT id, title, thumbnail_path FROM videos WHERE category = ? AND id <> ? ORDER BY upload_date DESC LIMIT 8");
@@ -62,8 +61,7 @@ if (!empty($video['category'])) {
             <source src="<?= htmlspecialchars($video['file_path']) ?>" type="video/mp4">
             Your browser does not support HTML5 video.
           </video>
-        </div>
-
+        </div><br><br><br><br>
         <h1 class="video-title"><?= htmlspecialchars($video['title']) ?></h1>
         <div class="meta">
           <span><?= (int)$video['views'] + 1 ?> views</span>
@@ -80,7 +78,7 @@ if (!empty($video['category'])) {
           <input placeholder="Write comment..."><button title="Send">✈️</button>
         </div>
         <div class="comments">
-          <!-- render comments later -->
+          <!-- comments will be made later -->
         </div>
       </div>
 
