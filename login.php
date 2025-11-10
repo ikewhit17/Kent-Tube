@@ -38,10 +38,10 @@
     <input type="text" name="username" required><br>
     password:<br>
     <input type="password" name="password" required><br><br>
-    <input type="submit" name="login" value="Login"><br><br>
-    <form action="index.php" method="get">
+    <input type="submit" name="login" value="Login">
+  </form><br>
+  <form action="index.php" method="get">
     <button type="submit">Don’t have an account? Register</button>
-  </form>
   </form>
 </body>
 </html>
