@@ -45,10 +45,7 @@ $res = mysqli_query($conn, $sql);
           </a>
         <?php endwhile; ?>
       </div>
-  <h3>Courses</h3>
-        <div id="courseCards" class="list-courses">
-          <!-- course rows inserted by JS -->
-        </div>
+  
       </section>
 
     </main>
