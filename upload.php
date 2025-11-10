@@ -59,8 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $duration = null;
 
         // Only attempt ffmpeg/ffprobe if shell_exec is available
-        $FFMPEG  = '/usr/bin/ffmpeg';
-$FFPROBE = '/usr/bin/ffprobe';
+$FFMPEG  = '/usr/local/bin/ffmpeg-clean';
+$FFPROBE = '/usr/local/bin/ffprobe-clean';
 
 if (is_executable($FFMPEG) && is_executable($FFPROBE) && function_exists('shell_exec')) {
   $cmdProbe = $FFPROBE . " -v error -select_streams v:0 -show_entries format=duration -of csv=p=0 "
