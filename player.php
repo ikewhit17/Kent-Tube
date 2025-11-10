@@ -57,13 +57,14 @@ if (!empty($video['category'])) {
     <section class="player-area">
       <div class="player-main">
         <div class="video-player">
-          <video controls preload="metadata" poster="<?= htmlspecialchars($video['thumbnail_path'] ?: 'assets/default-thumb.jpg') ?>" style="width:100%;max-height:65vh;background:#000;">
-            <source src="<?= htmlspecialchars($video['file_path']) ?>" type="video/mp4">
-            Your browser does not support HTML5 video.
-          </video>
-        </div><br><br><br><br>
-        <div>
-        <h1 class="video-title"><?= htmlspecialchars($video['title']) ?></h1>
+  <video controls preload="metadata"
+         poster="<?= htmlspecialchars($video['thumbnail_path'] ?: 'assets/default-thumb.jpg') ?>">
+    <source src="<?= htmlspecialchars($video['file_path']) ?>" type="video/mp4">
+  </video>
+</div>
+
+<h1 class="video-title"><?= htmlspecialchars($video['title']) ?></h1>
+
         <div class="meta">
           <span><?= (int)$video['views'] + 1 ?> views</span>
           <span>•</span>
@@ -72,7 +73,7 @@ if (!empty($video['category'])) {
             <span>•</span><span><?= htmlspecialchars($video['category']) ?></span>
           <?php endif; ?>
         </div>
-          </div>
+          
         <div class="desc"><?= nl2br(htmlspecialchars($video['description'])) ?></div>
 
         <div class="comment-box">
