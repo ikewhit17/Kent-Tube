@@ -21,7 +21,7 @@
   </form>
 
   <br>
-  <form action="registration.php" method="get">
+  <form action="index.php" method="get">
     <button type="submit">Don’t have an account? Register</button>
   </form>
 </body>
