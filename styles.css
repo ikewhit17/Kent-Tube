@@ -81,13 +81,14 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .course-btn:hover {
   background: #ddd;
 }
-.video-player {
-  position: relative;      
+
+.video-player video {
   display: block;
   width: 100%;
-  margin-bottom: 16px;     
+  height: auto;            
+  max-height: 65vh;        
+  background: #000;
 }
-
 /* Title spacing */
 .video-title {
   margin: 8px 0 6px;
