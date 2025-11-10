@@ -91,7 +91,7 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .video-shelf{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(340px,1fr));
-  gap:32px;
+  gap:26px;
   align-items:start;
 }
 
