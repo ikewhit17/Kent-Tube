@@ -81,4 +81,22 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .course-btn:hover {
   background: #ddd;
 }
-
+.video-player {
+  position: relative;      
+  display: block;
+  width: 100%;
+  margin-bottom: 16px;     
+}
+.video-player video {
+  display: block;
+  width: 100%;
+  height: auto;            
+  max-height: 65vh;        
+  background: #000;
+}
+/* Title spacing */
+.video-title {
+  margin: 8px 0 6px;
+  line-height: 1.2;
+}
+.video-player.placeholder::before { content: none; }
