@@ -82,13 +82,6 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
   background: #ddd;
 }
 
-.video-player video {
-  display: block;
-  width: 100%;
-  height: auto;            
-  max-height: 65vh;        
-  background: #000;
-}
 /* Title spacing */
 .video-title {
   margin: 8px 0 6px;
