@@ -37,11 +37,11 @@
         password:<br>
         <input type="password" name="password" required><br><br>
         <input type="submit" name="submit" value="register">
-    </form>
-    <br>
-  <form action="login.php" method="get">
+        <form action="login.php" method="get">
     <button type="submit">Already have an account? Login</button>
   </form>
+    </form>
+  
 </body>
 </html>
 <?php
