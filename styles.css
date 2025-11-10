@@ -128,13 +128,6 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
   align-items:start;
 }
 
-/* main video sizing */
-.video-player video{
-  width:auto;
-  height:100%;
-  max-height:45vh;
-  display:block;
-}
 
 /* sidebar: small recommended tiles */
 .related{
@@ -162,4 +155,20 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .related-card .title{
   font-size:.95rem;
   line-height:1.2;
+}
+.video-player {
+  position: relative;
+  width: 100%;
+  max-width: 960px;     /* optional, limits overall width */
+  margin: 0 auto;
+  aspect-ratio: 16 / 9; /* keeps video height consistent */
+  background: #000;
+  overflow: hidden;
+}
+
+.video-player video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;    /* crop edges if needed to maintain aspect */
+  display: block;
 }
