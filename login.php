@@ -19,6 +19,11 @@
     <input type="password" name="password" required><br><br>
     <input type="submit" name="login" value="Login">
   </form>
+
+  <br>
+  <form action="registration.php" method="get">
+    <button type="submit">Don’t have an account? Register</button>
+  </form>
 </body>
 </html>
 
@@ -30,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(empty($username) || empty($password)) {
         echo "Please fill in all fields.";
     } else {
-        // Check if user exists
         $sql = "SELECT * FROM users WHERE user = ?";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "s", $username);
@@ -40,10 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($row = mysqli_fetch_assoc($result)) {
             if (password_verify($password, $row["password"])) {
                 $_SESSION["username"] = $username;
-                echo "Login successful. Welcome, " . htmlspecialchars($username) . "!";
-                // redirect example:
-                // header("Location: dashboard.php");
-                // exit;
+                header("Location: home.php");
+                exit;
             } else {
                 echo "Incorrect password.";
             }

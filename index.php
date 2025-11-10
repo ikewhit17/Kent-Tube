@@ -17,6 +17,10 @@
         <input type="password" name="password" required><br><br>
         <input type="submit" name="submit" value="register">
     </form>
+    <br>
+  <form action="login.php" method="get">
+    <button type="submit">Already have an account? Login</button>
+  </form>
 </body>
 </html>
 <?php
@@ -29,14 +33,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Please fill in all fields.";
     } else {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (user, password)
-        VALUES ('$username', '$hash')";
-        mysqli_query($conn, $sql);
-        echo "Registration successful.";
+        $sql = "INSERT INTO users (user, password) VALUES ('$username', '$hash')";
+        if (mysqli_query($conn, $sql)) {
+            header("Location: login.php");
+            exit;
+        } else {
+            echo "Error: " . mysqli_error($conn);
         }
-
-
     }
+}
 
 mysqli_close($conn);
 ?>
