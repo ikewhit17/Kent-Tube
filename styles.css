@@ -128,13 +128,6 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
   align-items:start;
 }
 
-/* main video sizing */
-.video-player video{
-  width:100%;
-  height:auto;
-  max-height:60vh;
-  display:block;
-}
 
 /* sidebar: small recommended tiles */
 .related{
