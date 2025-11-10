@@ -62,6 +62,7 @@ if (!empty($video['category'])) {
             Your browser does not support HTML5 video.
           </video>
         </div><br><br><br><br>
+        <div>
         <h1 class="video-title"><?= htmlspecialchars($video['title']) ?></h1>
         <div class="meta">
           <span><?= (int)$video['views'] + 1 ?> views</span>
@@ -71,7 +72,7 @@ if (!empty($video['category'])) {
             <span>•</span><span><?= htmlspecialchars($video['category']) ?></span>
           <?php endif; ?>
         </div>
-
+          </div>
         <div class="desc"><?= nl2br(htmlspecialchars($video['description'])) ?></div>
 
         <div class="comment-box">
