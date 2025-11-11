@@ -28,12 +28,12 @@
         <h1>Saved</h1>
         <hr>
         <div class="two-col-grid">
-          <a class="video-card placeholder" href="player.html?vid=saved-1">Video</a>
-          <a class="video-card placeholder" href="player.html?vid=saved-2">Video</a>
-          <a class="video-card placeholder" href="player.html?vid=saved-3">Video</a>
-          <a class="video-card placeholder" href="player.html?vid=saved-4">Video</a>
-          <a class="video-card placeholder" href="player.html?vid=saved-5">Video</a>
-          <a class="video-card placeholder" href="player.html?vid=saved-6">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=saved-1">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=saved-2">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=saved-3">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=saved-4">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=saved-5">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=saved-6">Video</a>
         </div>
       </section>
 

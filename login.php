@@ -29,6 +29,23 @@
   input, button {
     margin: 5px 0;
   }
+  .register-link {
+  margin-top: 15px;
+}
+
+.register-link button {
+  background: none;
+  border: 1px solid #999;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.register-link button:hover {
+  background: #eee;
+}
+
 </style>
 </head>
 <body>
@@ -39,9 +56,9 @@
     password:<br>
     <input type="password" name="password" required><br><br>
     <input type="submit" name="login" value="Login">
-  </form><br><br>
-  <form action="index.php" method="get">
-    <button type="submit">Don’t have an account? Register</button>
+    <div class="register-link">
+    <button type="button" onclick="window.location.href='index.php'">Don’t have an account? Register</button>
+  </div>
   </form>
 </body>
 </html>
