@@ -1,23 +1,37 @@
-Kent-Tube demo
+Kent-Tube
+A web-based video-sharing platform prototype inspired by Kent State’s learning environment.
+This version extends the original static demo into a functional PHP/MySQL web app with user accounts, uploads, and dynamic playback.
 
-A small static frontend prototype showing a Kent State "Kent-Tube" concept. It is a simple, client-only demo that runs in the browser and uses IndexedDB to store uploaded and recorded videos locally.
+What you can do
+Register/Login:
+Secure authentication using PHP sessions and password hashing.
 
-How to try
+Upload Videos:
+Upload MP4/WebM/OGG files up to 1 GB each.
+Thumbnails are auto-generated via FFmpeg (or fall back to a default image).
 
-1. Open `index.html` from the `kent-tube` folder in a modern browser (Chrome/Edge/Firefox). Because it uses `getDisplayMedia` for screen capture and IndexedDB, use a secure context (file:// will work in most browsers for local testing; for best results, serve with a local static server).
+Browse Home Page:
+Displays uploaded videos with titles and thumbnails.
+Includes quick-access course buttons for sample categories.
 
-2. On the Home page you can:
-   - Click "Upload Video" to add a video file from your computer (saved to IndexedDB for the demo).
-   - Click "Record Assignment" to open a recorder that captures your screen and webcam together and saves the result locally when you stop.
+View Videos:
+Watch uploaded content in an HTML5 player.
+Title, description, upload date, category, and views are shown below.
+Related videos from the same category appear on the right.
 
-Notes
-
-- This is a front-end demo only (no server or authentication). Professor/student roles are not enforced; it's a UI concept.
-- The recording code mixes screen and webcam into a single canvas and records it with MediaRecorder; behavior depends on browser support and permissions.
-- Stored videos live in your browser's IndexedDB and are only available on the same machine and browser.
+Notes:
+FFmpeg is required for automatic thumbnail generation.
 
 Next steps (optional)
+Add real user video history and playlists.
+Implement comments, likes, and search filtering.
+Improve player responsiveness for mobile devices.
+Deploy to a remote host (e.g., Apache or Nginx server).
 
-- Add authentication and a backend to store videos persistently.
-- Add proper course/channel playlists, comments, and access control.
-- Improve recording stability and add progress/preview features.
+Summary
+This project demonstrates a simple but complete video-sharing system using:
+PHP 8
+MySQL/MariaDB
+HTML5 + CSS3 + JS
+FFmpeg for video thumbnail generation
+Designed as a capstone-style educational tool under Kent State’s “Kent-Tube” concept.
