@@ -28,12 +28,12 @@
         <h1>History</h1>
         <hr>
         <div class="two-col-grid">
-          <a class="video-card placeholder" href="player.html?vid=history-1">Video</a>
-          <a class="video-card placeholder" href="player.html?vid=history-2">Video</a>
-          <a class="video-card placeholder" href="player.html?vid=history-3">Video</a>
-          <a class="video-card placeholder" href="player.html?vid=history-4">Video</a>
-          <a class="video-card placeholder" href="player.html?vid=history-5">Video</a>
-          <a class="video-card placeholder" href="player.html?vid=history-6">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=history-1">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=history-2">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=history-3">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=history-4">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=history-5">Video</a>
+          <a class="video-card placeholder" href="player.php?vid=history-6">Video</a>
         </div>
       </section>
 
