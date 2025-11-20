@@ -210,3 +210,6 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
   margin: 8px 0;
   padding: 8px;
 }
+.app {
+  overflow: visible !important;
+}
