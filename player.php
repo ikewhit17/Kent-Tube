@@ -16,6 +16,29 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $video = mysqli_fetch_assoc($result);
 if (!$video) { http_response_code(404); exit('Video not found'); }
+
+// Fetch playlists for dropdown
+$plist = mysqli_query($conn, "SELECT id, name FROM playlists ORDER BY name ASC");
+
+// Handle "Add to playlist"
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["add_to_playlist"])) {
+
+    $playlist_id = (int)$_POST["playlist_id"];
+    $video_id = $id;
+
+    if ($playlist_id > 0) {
+        $stmt = mysqli_prepare($conn,
+            "INSERT IGNORE INTO playlist_videos (playlist_id, video_id) VALUES (?, ?)"
+        );
+        mysqli_stmt_bind_param($stmt, "ii", $playlist_id, $video_id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+
+        header("Location: player.php?id=" . $id);
+        exit;
+    }
+}
+
  // set views
 mysqli_query($conn, "UPDATE videos SET views = views + 1 WHERE id = $id");
 
@@ -65,6 +88,8 @@ if (!empty($video['category'])) {
 
 <h1 class="video-title"><?= htmlspecialchars($video['title']) ?></h1>
 
+<button class="playlist-btn" onclick="openPlaylistModal()">➕ Add to Playlist</button>
+
         <div class="meta">
           <span><?= (int)$video['views'] + 1 ?> views</span>
           <span>•</span>
@@ -97,6 +122,34 @@ if (!empty($video['category'])) {
     </section>
   </main>
 </div>
+<!-- Add to Playlist Modal -->
+<div class="playlist-modal-bg" id="playlistModal">
+  <div class="playlist-modal">
+    <h3>Add to Playlist</h3>
+
+    <form method="post">
+      <select name="playlist_id" required>
+        <option value="">Select a playlist</option>
+        <?php while ($p = mysqli_fetch_assoc($plist)): ?>
+          <option value="<?= $p['id'] ?>"><?= htmlspecialchars($p['name']) ?></option>
+        <?php endwhile; ?>
+      </select>
+
+      <button type="submit" name="add_to_playlist">Add</button>
+      <button type="button" onclick="closePlaylistModal()">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<script>
+function openPlaylistModal() {
+  document.getElementById("playlistModal").style.display = "flex";
+}
+function closePlaylistModal() {
+  document.getElementById("playlistModal").style.display = "none";
+}
+</script>
+
 <script src="app.js"></script>
 </body>
 </html>
