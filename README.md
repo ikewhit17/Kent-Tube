@@ -1,6 +1,5 @@
 Kent-Tube
-=========
-
+------------
 A web-based video-sharing platform prototype inspired by Kent State’s learning environment. This version extends the original static demo into a functional PHP/MySQL web app with user accounts, uploads, and dynamic playback.
 
 What it does
