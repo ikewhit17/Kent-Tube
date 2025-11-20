@@ -1,45 +1,140 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-?>
-<?php
+
 include "database.php";
+session_start();
 
-// validate id
+// ---------------------------
+// Validate video ID
+// ---------------------------
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if ($id <= 0) { http_response_code(404); exit('Video not found'); }
+if ($id <= 0) { http_response_code(404); exit("Video not found"); }
 
-// fetch video
-$stmt = mysqli_prepare($conn, "SELECT id, title, description, file_path, thumbnail_path, views, upload_date, category, tags, duration FROM videos WHERE id = ?");
+// Fetch video data
+$stmt = mysqli_prepare($conn, 
+  "SELECT id, title, description, file_path, thumbnail_path, views, upload_date, category 
+   FROM videos WHERE id = ?");
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $video = mysqli_fetch_assoc($result);
-if (!$video) { http_response_code(404); exit('Video not found'); }
- // set views
+mysqli_stmt_close($stmt);
+
+if (!$video) { http_response_code(404); exit("Video not found"); }
+
+// Increase views
 mysqli_query($conn, "UPDATE videos SET views = views + 1 WHERE id = $id");
 
-// fetch some related videos (same category, exclude current video)
-$rel = null;
+// Fetch playlists for dropdown
+$playlists = mysqli_query($conn, "SELECT id, name FROM playlists ORDER BY name ASC");
+
+// Add video to playlist
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["add_to_playlist"])) {
+    $playlist_id = (int)$_POST["playlist_id"];
+
+    if ($playlist_id > 0) {
+        $stmt = mysqli_prepare($conn,
+            "INSERT IGNORE INTO playlist_videos (playlist_id, video_id) VALUES (?, ?)"
+        );
+        mysqli_stmt_bind_param($stmt, "ii", $playlist_id, $id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        header("Location: player.php?id=" . $id);
+        exit;
+    }
+}
+
+// Fetch related videos
+$related = null;
 if (!empty($video['category'])) {
-  $rstmt = mysqli_prepare($conn, "SELECT id, title, thumbnail_path FROM videos WHERE category = ? AND id <> ? ORDER BY upload_date DESC LIMIT 8");
-  mysqli_stmt_bind_param($rstmt, "si", $video['category'], $id);
-  mysqli_stmt_execute($rstmt);
-  $rel = mysqli_stmt_get_result($rstmt);
+    $rstmt = mysqli_prepare($conn,
+      "SELECT id, title, thumbnail_path 
+       FROM videos 
+       WHERE category = ? AND id <> ?
+       ORDER BY upload_date DESC LIMIT 8");
+    mysqli_stmt_bind_param($rstmt, "si", $video['category'], $id);
+    mysqli_stmt_execute($rstmt);
+    $related = mysqli_stmt_get_result($rstmt);
+    mysqli_stmt_close($rstmt);
 }
 ?>
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?= htmlspecialchars($video['title']) ?> — Kent-Tube</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<title><?= htmlspecialchars($video['title']) ?> — Kent-Tube</title>
+<link rel="stylesheet" href="styles.css">
+
+<style>
+/* ---------------- PLAYER LAYOUT FIX ---------------- */
+
+.video-player video {
+    width: 100%;
+    max-height: 65vh;
+    object-fit: contain;
+    background: black;
+}
+
+/* ---------------- MODAL FIX ---------------- */
+
+#playlistModalBg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 5000;
+}
+
+#playlistModal {
+    background: white;
+    padding: 25px;
+    width: 350px;
+    border-radius: 10px;
+}
+
+#playlistModal select,
+#playlistModal button {
+    width: 100%;
+    padding: 9px;
+    margin-top: 10px;
+}
+
+.playlist-btn {
+    padding: 8px 14px;
+    background: #0066ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.playlist-btn:hover { background: #0053cc; }
+
+/* related videos small */
+.related-card img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+.related-card {
+    display: block;
+    margin-bottom: 12px;
+}
+</style>
+
 </head>
 <body>
+
 <div class="app layout-player">
+  
   <aside class="sidebar">
     <div class="logo-row"><div class="logo-mark">🐺</div><div class="logo-text">KENT-TUBE</div></div>
-    <nav class="side-nav" aria-label="Main">
+    <nav class="side-nav">
       <a class="nav-btn" href="home.php">Home</a>
       <a class="nav-btn" href="history.php">History</a>
       <a class="nav-btn" href="saved.php">Saved</a>
@@ -55,48 +150,76 @@ if (!empty($video['category'])) {
     </header>
 
     <section class="player-area">
+      
       <div class="player-main">
-        <div class="video-player">
-  <video controls preload="metadata"
-         poster="<?= htmlspecialchars($video['thumbnail_path'] ?: 'assets/default-thumb.jpg') ?>">
-    <source src="<?= htmlspecialchars($video['file_path']) ?>" type="video/mp4">
-  </video>
-</div>
 
-<h1 class="video-title"><?= htmlspecialchars($video['title']) ?></h1>
+        <div class="video-player">
+          <video controls preload="metadata"
+            poster="<?= htmlspecialchars($video['thumbnail_path'] ?: 'assets/default-thumb.jpg') ?>">
+            <source src="<?= htmlspecialchars($video['file_path']) ?>" type="video/mp4">
+          </video>
+        </div>
+
+        <h1 class="video-title"><?= htmlspecialchars($video['title']) ?></h1>
+
+        <button class="playlist-btn" onclick="openModal()">➕ Add to Playlist</button>
 
         <div class="meta">
           <span><?= (int)$video['views'] + 1 ?> views</span>
           <span>•</span>
-          <span><?= htmlspecialchars(date('Y-m-d H:i', strtotime($video['upload_date']))) ?></span>
-          <?php if (!empty($video['category'])): ?>
-            <span>•</span><span><?= htmlspecialchars($video['category']) ?></span>
+          <span><?= htmlspecialchars(date("Y-m-d H:i", strtotime($video['upload_date']))) ?></span>
+          <?php if ($video['category']): ?>
+          <span>•</span><span><?= htmlspecialchars($video['category']) ?></span>
           <?php endif; ?>
         </div>
-          
+
         <div class="desc"><?= nl2br(htmlspecialchars($video['description'])) ?></div>
 
-        <div class="comment-box">
-          <input placeholder="Write comment..."><button title="Send">✈️</button>
-        </div>
-        <div class="comments">
-          <!-- comments will be made later -->
-        </div>
       </div>
 
       <aside class="related">
-        <?php if ($rel && mysqli_num_rows($rel)): while ($r = mysqli_fetch_assoc($rel)): ?>
-          <a class="related-card" href="player.php?id=<?= (int)$r['id'] ?>">
-            <img src="<?= htmlspecialchars($r['thumbnail_path'] ?: 'assets/default-thumb.jpg') ?>" alt="<?= htmlspecialchars($r['title']) ?>">
+        <?php if ($related): while ($r = mysqli_fetch_assoc($related)): ?>
+          <a class="related-card" href="player.php?id=<?= $r['id'] ?>">
+            <img src="<?= htmlspecialchars($r['thumbnail_path'] ?: 'assets/default-thumb.jpg') ?>">
             <div class="title"><?= htmlspecialchars($r['title']) ?></div>
           </a>
-        <?php endwhile; else: ?>
-          <div class="related-card placeholder">No related videos</div>
-        <?php endif; ?>
+        <?php endwhile; endif; ?>
       </aside>
+
     </section>
   </main>
+
 </div>
+
+<!-- ---------------- MODAL OUTSIDE LAYOUT ---------------- -->
+<div id="playlistModalBg">
+  <div id="playlistModal">
+    <h3>Add to Playlist</h3>
+
+    <form method="POST">
+      <select name="playlist_id" required>
+        <option value="">Select playlist</option>
+        <?php while ($p = mysqli_fetch_assoc($playlists)): ?>
+          <option value="<?= $p['id'] ?>"><?= htmlspecialchars($p['name']) ?></option>
+        <?php endwhile; ?>
+      </select>
+
+      <button type="submit" name="add_to_playlist">Add</button>
+      <button type="button" onclick="closeModal()">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<script>
+function openModal() {
+  document.getElementById("playlistModalBg").style.display = "flex";
+}
+function closeModal() {
+  document.getElementById("playlistModalBg").style.display = "none";
+}
+</script>
+
 <script src="app.js"></script>
+
 </body>
 </html>
