@@ -58,6 +58,65 @@ if (!empty($video['category'])) {
     $related = mysqli_stmt_get_result($rstmt);
     mysqli_stmt_close($rstmt);
 }
+// Handle new comment submission
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["new_comment"])) {
+
+    $video_id = $id;
+    $user_id = $_SESSION["user_id"] ?? 0; // change based on your login system
+    $text = trim($_POST["comment_text"] ?? "");
+    $parent = isset($_POST["parent_id"]) ? (int)$_POST["parent_id"] : null;
+
+    if ($user_id > 0 && $text !== "") {
+        $stmt = mysqli_prepare($conn,
+            "INSERT INTO comments (video_id, user_id, comment_text, parent_id)
+             VALUES (?, ?, ?, ?)"
+        );
+        mysqli_stmt_bind_param($stmt, "iisi", $video_id, $user_id, $text, $parent);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+
+    header("Location: player.php?id=" . $id);
+    exit;
+}
+// Fetch all comments for this video
+$comments = mysqli_query($conn,
+    "SELECT c.id, c.comment_text, c.parent_id, c.created_at,
+            u.user AS username
+     FROM comments c
+     JOIN users u ON c.user_id = u.id
+     WHERE c.video_id = $id
+     ORDER BY c.created_at ASC"
+);
+
+// Build nested structure
+$comment_tree = [];
+while ($c = mysqli_fetch_assoc($comments)) {
+    $comment_tree[$c["parent_id"]][] = $c;
+}
+function render_comments($parent_id, $tree) {
+    if (!isset($tree[$parent_id])) return;
+
+    echo "<div class='comment-level'>";
+
+    foreach ($tree[$parent_id] as $c) {
+        echo "<div class='comment-box'>";
+        echo "<strong>" . htmlspecialchars($c["username"]) . "</strong><br>";
+        echo nl2br(htmlspecialchars($c["comment_text"])) . "<br>";
+        echo "<small>" . $c["created_at"] . "</small>";
+
+        // Reply button
+        echo "<div><button class='reply-btn' onclick='openReply(".$c['id'].")'>Reply</button></div>";
+
+        // Render children
+        render_comments($c["id"], $tree);
+
+        echo "</div>";
+    }
+
+    echo "</div>";
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -200,6 +259,25 @@ document.getElementById("search").addEventListener("keypress", function(e) {
   </main>
 
 </div>
+<div class="comments-section">
+
+  <h2>Comments</h2>
+
+  <!-- New Comment Form -->
+  <form method="post" class="comment-form">
+    <textarea name="comment_text" placeholder="Write a comment..." required></textarea>
+    <input type="hidden" name="parent_id" id="parent_id" value="">
+    <button type="submit" name="new_comment">Post</button>
+  </form>
+
+  <hr>
+
+  <!-- Display Comments -->
+  <div class="comments">
+    <?php render_comments(null, $comment_tree); ?>
+  </div>
+
+</div>
 
 <!-- ---------------- MODAL OUTSIDE LAYOUT ---------------- -->
 <div id="playlistModalBg">
@@ -230,6 +308,12 @@ function closeModal() {
 </script>
 
 <script src="app.js"></script>
+<script>
+function openReply(id) {
+    document.getElementById("parent_id").value = id;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
 
 </body>
 </html>
