@@ -131,7 +131,7 @@ function render_comments($parent_id, $tree) {
 <head>
 <meta charset="UTF-8">
 <title><?= htmlspecialchars($video['title']) ?> — Kent-Tube</title>
-
+<link rel="stylesheet" href="styles.css">
 
 <style>
 /* ---------------- PLAYER LAYOUT FIX ---------------- */

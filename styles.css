@@ -165,6 +165,14 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
   display: block;
   object-fit: contain; /* ensures full video fits without cropping */
 }
+ <style>
+    .sidebar {
+        background-color: #082045;
+    }
+    .logo-text {
+        color: rgb(234, 171, 0);
+    }
+  </style>
 
 .reply-btn:hover {
     text-decoration: underline;
