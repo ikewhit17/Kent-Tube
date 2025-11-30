@@ -243,22 +243,6 @@ document.getElementById("search").addEventListener("keypress", function(e) {
         </div>
 
         <div class="desc"><?= nl2br(htmlspecialchars($video['description'])) ?></div>
-
-      </div>
-
-      <aside class="related">
-        <?php if ($related): while ($r = mysqli_fetch_assoc($related)): ?>
-          <a class="related-card" href="player.php?id=<?= $r['id'] ?>">
-            <img src="<?= htmlspecialchars($r['thumbnail_path'] ?: 'assets/default-thumb.jpg') ?>">
-            <div class="title"><?= htmlspecialchars($r['title']) ?></div>
-          </a>
-        <?php endwhile; endif; ?>
-      </aside>
-
-    </section>
-  </main>
-
-</div>
 <div class="comments-section">
 
   <h2>Comments</h2>
@@ -278,6 +262,23 @@ document.getElementById("search").addEventListener("keypress", function(e) {
   </div>
 
 </div>
+
+      </div>
+
+      <aside class="related">
+        <?php if ($related): while ($r = mysqli_fetch_assoc($related)): ?>
+          <a class="related-card" href="player.php?id=<?= $r['id'] ?>">
+            <img src="<?= htmlspecialchars($r['thumbnail_path'] ?: 'assets/default-thumb.jpg') ?>">
+            <div class="title"><?= htmlspecialchars($r['title']) ?></div>
+          </a>
+        <?php endwhile; endif; ?>
+      </aside>
+
+    </section>
+  </main>
+
+</div>
+
 
 <!-- ---------------- MODAL OUTSIDE LAYOUT ---------------- -->
 <div id="playlistModalBg">
