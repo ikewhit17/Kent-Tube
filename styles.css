@@ -155,7 +155,6 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
   width: 100%;
   margin: 0 auto;
   background: #000;
-  overflow: hidden;
 }
 
 .video-player video {
@@ -183,7 +182,7 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 }
 
 .comment-level {
-    margin-left: 20px;
+    margin-left: 12px;
     margin-top: 10px;
 }
 
@@ -204,4 +203,7 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 }
 .reply-btn:hover {
     text-decoration: underline;
+}
+.comments, .comment-level, .comment-box {
+    display: block !important;
 }
