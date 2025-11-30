@@ -66,7 +66,10 @@ $result = mysqli_stmt_get_result($stmt);
       <div class="search-wrap">
         <input id="search" placeholder="Search Bar" value="<?= htmlspecialchars($q) ?>">
       </div>
-      <div class="profile"><div class="avatar"></div><div class="profile-name">Isaac</div></div>
+      <div class="profile"><div class="avatar"></div><div class="profile-name">
+    <?= htmlspecialchars($_SESSION["username"] ?? "Guest") ?>
+</div>
+</div>
     </header>
 
     <section class="content">
