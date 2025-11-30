@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "database.php";
 
 // fetch latest videos
