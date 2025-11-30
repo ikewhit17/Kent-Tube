@@ -262,7 +262,7 @@ document.getElementById("search").addEventListener("keypress", function(e) {
 
   <!-- Display Comments -->
   <div class="comments">
-    <?php render_comments(null, $comment_tree); ?>
+    <?php render_comments(0, $comment_tree); ?>
   </div>
 
 </div>
