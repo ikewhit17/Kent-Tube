@@ -79,7 +79,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($row = mysqli_fetch_assoc($result)) {
             if (password_verify($password, $row["password"])) {
-                $_SESSION["username"] = $username;
+
+                // NEW — store numeric ID for comments and playlists
+                $_SESSION["user_id"] = $row["id"];
+
+                // keep username for display use
+                $_SESSION["username"] = $row["user"];
+
                 header("Location: home.php");
                 exit;
             } else {

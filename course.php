@@ -1,5 +1,6 @@
 <?php
   include("database.php");
+  session_start();
 ?>
 <!doctype html>
 <html lang="en">
@@ -19,7 +20,6 @@
       <nav class="side-nav" aria-label="Main">
         <button class="nav-btn" data-page="home">Home</button>
         <button class="nav-btn" data-page="history">History</button>
-        <button class="nav-btn" data-page="saved">Saved</button>
         <button class="nav-btn" data-page="playlists">Playlists</button>
       </nav>
     </aside>
@@ -38,7 +38,9 @@ document.getElementById("search").addEventListener("keypress", function(e) {
   }
 });
 </script>
-        <div class="profile"> <div class="avatar"></div><div class="profile-name">Isaac</div></div>
+        <div class="profile"> <div class="avatar"><img src="Isaac.png"></div><div class="profile-name">
+    <?= htmlspecialchars($_SESSION["username"] ?? "Guest") ?>
+</div></div>
       </header>
 
       <section class="course-hero">

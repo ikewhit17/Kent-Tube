@@ -1,6 +1,6 @@
 <?php
 include "database.php";
-
+session_start();
 // fetch latest videos
 $sql = "SELECT id, title, thumbnail_path, file_path FROM videos ORDER BY upload_date DESC LIMIT 24";
 $res = mysqli_query($conn, $sql);
@@ -11,14 +11,7 @@ $res = mysqli_query($conn, $sql);
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kent-Tube — Home</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    .sidebar {
-        background-color: #082045;
-    }
-    .logo-text {
-        color: rgb(234, 171, 0);
-    }
-  </style>
+
 </head>
 <body>
 <div class="app layout-home">
@@ -27,7 +20,6 @@ $res = mysqli_query($conn, $sql);
     <nav class="side-nav" aria-label="Main">
       <button class="nav-btn active" data-page="home">Home</button>
       <button class="nav-btn" data-page="history">History</button>
-      <button class="nav-btn" data-page="saved">Saved</button>
       <button class="nav-btn" data-page="playlists">Playlists</button>
     </nav>
   </aside>
@@ -47,7 +39,9 @@ document.getElementById("search").addEventListener("keypress", function(e) {
 });
 </script>
 
-      <div class="profile"><div class="avatar"></div><div class="profile-name">Isaac</div></div>
+      <div class="profile"><div class="avatar"><img src="Isaac.png"></div><div class="profile-name">
+    <?= htmlspecialchars($_SESSION["username"] ?? "Guest") ?>
+</div></div>
     </header>
 
     <section class="content">

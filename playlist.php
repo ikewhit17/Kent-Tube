@@ -99,7 +99,6 @@ mysqli_stmt_close($stmt2);
       <nav class="side-nav">
         <a class="nav-btn" href="home.php">Home</a>
         <a class="nav-btn" href="history.php">History</a>
-        <a class="nav-btn" href="saved.php">Saved</a>
         <a class="nav-btn active" href="playlists.php">Playlists</a>
       </nav>
     </aside>
@@ -119,8 +118,11 @@ document.getElementById("search").addEventListener("keypress", function(e) {
 });
 </script>
         <div class="profile">
-          <div class="avatar"></div>
-          <div class="profile-name">Isaac</div>
+          <div class="avatar"><img src="Isaac.png"></div>
+          <div class="profile-name">
+    <?= htmlspecialchars($_SESSION["username"] ?? "Guest") ?>
+</div>
+
         </div>
       </header>
 
