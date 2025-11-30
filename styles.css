@@ -166,42 +166,6 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
   object-fit: contain; /* ensures full video fits without cropping */
 }
 
-.comments-section {
-    margin-top: 20px;
-}
-
-.comment-form textarea {
-    width: 100%;
-    height: 70px;
-    padding: 10px;
-    resize: vertical;
-}
-
-.comment-form button {
-    margin-top: 6px;
-    padding: 6px 12px;
-}
-
-.comment-level {
-   margin-left: 12px !important;
-    margin-top: 10px;
-}
-
-.comment-box {
-    padding: 10px;
-    background: #f7f7f7;
-    border-radius: 8px;
-    margin-bottom: 8px;
-}
-
-.reply-btn {
-    margin-top: 4px;
-    background: none;
-    border: none;
-    color: #0077ff;
-    cursor: pointer;
-    font-size: 13px;
-}
 .reply-btn:hover {
     text-decoration: underline;
 }
