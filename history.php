@@ -22,8 +22,8 @@
     </aside>
 
     <main class="main">
-      <header class="topbar"><button class="settings">⚙️</button><div class="search-wrap"><input placeholder="Search Bar">
-    </div>
+      <header class="topbar"><button class="settings">⚙️</button>
+      <div class="search-wrap"><input id="search" placeholder="Search Bar"></div>
     <script>
 document.getElementById("search").addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
