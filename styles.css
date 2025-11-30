@@ -45,7 +45,7 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .videos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
 .videos-grid .video-card{height:160px;border-radius:8px;background:#e6e6e6;display:grid;place-items:center;font-size:1.25rem}
 
-/* two-column layouts used on History/Saved/Playlists */
+/* two-column layouts used on History/Playlists */
 .two-col-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;max-width:900px}
 .two-col-grid .video-card{height:140px;border-radius:8px;background:#e6e6e6;display:grid;place-items:center}
 

@@ -55,7 +55,6 @@ $result = mysqli_stmt_get_result($stmt);
     <nav class="side-nav">
       <a class="nav-btn" href="home.php">Home</a>
       <a class="nav-btn" href="history.php">History</a>
-      <a class="nav-btn" href="saved.php">Saved</a>
       <a class="nav-btn" href="playlists.php">Playlists</a>
     </nav>
   </aside>
