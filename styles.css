@@ -33,9 +33,7 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .player-main{flex:2}
 .related{flex:1;display:flex;flex-direction:column;gap:.8rem}
 .desc{background:#eee;padding:1rem;border-radius:6px;margin-top:.75rem}
-.comment-box{display:flex;gap:.5rem;margin-top:.75rem}
-.comment-box input{flex:1;padding:.6rem;border-radius:6px;border:1px solid #ddd}
-.comments .comment{background:#f2f2f2;padding:.6rem;border-radius:6px;margin-top:.5rem}
+
 
 /* Course page styles */
 .course-hero{display:flex;flex-direction:column;align-items:center;gap:.75rem;margin-bottom:1.25rem}
