@@ -27,7 +27,17 @@
     <main class="main">
       <header class="topbar">
         <button class="settings" title="Settings">⚙️</button>
-        <div class="search-wrap"><input id="searchCourse" placeholder="Search Bar"></div>
+        <div class="search-wrap"><input id="search" placeholder="Search Bar"></div>
+         <script>
+document.getElementById("search").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    const q = encodeURIComponent(this.value.trim());
+    if (q.length > 0) {
+      window.location.href = "search.php?q=" + q;
+    }
+  }
+});
+</script>
         <div class="profile"> <div class="avatar"></div><div class="profile-name">Isaac</div></div>
       </header>
 
