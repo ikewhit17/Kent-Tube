@@ -135,13 +135,6 @@ function render_comments($parent_id, $tree) {
 
 <style>
   
-    .sidebar {
-        background-color: #082045;
-    }
-    .logo-text {
-        color: rgb(234, 171, 0);
-    }
-  
 /* ---------------- PLAYER LAYOUT FIX ---------------- */
 
 .video-player video {

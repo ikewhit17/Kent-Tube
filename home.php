@@ -11,14 +11,7 @@ $res = mysqli_query($conn, $sql);
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kent-Tube — Home</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    .sidebar {
-        background-color: #082045;
-    }
-    .logo-text {
-        color: rgb(234, 171, 0);
-    }
-  </style>
+
 </head>
 <body>
 <div class="app layout-home">
