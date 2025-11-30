@@ -19,8 +19,8 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .profile{display:flex;align-items:center;gap:.5rem}
 .avatar{width:44px;height:44px;background:#ddd;border-radius:50%}
 .avatar img {
-  width: 40px;           
-  height: 40px;          
+  width: 44px;           
+  height: 44px;          
   border-radius: 50%;     
   object-fit: cover;      
 }
