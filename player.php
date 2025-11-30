@@ -103,22 +103,27 @@ function render_comments($parent_id, $tree) {
     echo "<div class='comment-level'>";
 
     foreach ($tree[$parent_id] as $c) {
+
         echo "<div class='comment-box'>";
-        echo "<strong>" . htmlspecialchars($c["username"]) . "</strong><br>";
-        echo nl2br(htmlspecialchars($c["comment_text"])) . "<br>";
-        echo "<small>" . $c["created_at"] . "</small>";
 
-        // Reply button
-        echo "<div><button class='reply-btn' onclick='openReply(".$c['id'].")'>Reply</button></div>";
+        echo "<div class='comment-header'>";
+        echo "<span class='comment-username'>" . htmlspecialchars($c["username"]) . "</span>";
+        echo "<span class='comment-time'>" . $c["created_at"] . "</span>";
+        echo "</div>";
 
-        // Render children
+        echo "<div class='comment-text'>" . nl2br(htmlspecialchars($c["comment_text"])) . "</div>";
+
+        echo "<button class='reply-btn' onclick='openReply(".$c['id'].")'>Reply</button>";
+
+        // Render replies (children)
         render_comments($c["id"], $tree);
 
-        echo "</div>";
+        echo "</div>"; // end comment-box
     }
 
-    echo "</div>";
+    echo "</div>"; // end comment-level
 }
+
 
 ?>
 <!DOCTYPE html>
