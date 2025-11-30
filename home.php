@@ -40,7 +40,9 @@ document.getElementById("search").addEventListener("keypress", function(e) {
 });
 </script>
 
-      <div class="profile"><div class="avatar"></div><div class="profile-name">Isaac</div></div>
+      <div class="profile"><div class="avatar"></div><div class="profile-name">
+    <?= htmlspecialchars($_SESSION["username"] ?? "Guest") ?>
+</div></div>
     </header>
 
     <section class="content">
