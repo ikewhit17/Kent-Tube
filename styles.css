@@ -155,6 +155,7 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
   width: 100%;
   margin: 0 auto;
   background: #000;
+  overflow: visible !important;
 }
 
 .video-player video {
@@ -182,7 +183,7 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 }
 
 .comment-level {
-    margin-left: 12px;
+   margin-left: 12px !important;
     margin-top: 10px;
 }
 
