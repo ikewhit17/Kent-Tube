@@ -247,7 +247,25 @@ document.getElementById("search").addEventListener("keypress", function(e) {
 
         <div class="desc"><?= nl2br(htmlspecialchars($video['description'])) ?></div>
 
+<div class="comments-section">
 
+  <h2>Comments</h2>
+
+  <!-- New Comment Form -->
+  <form method="post" class="comment-form">
+    <textarea name="comment_text" placeholder="Write a comment..." required></textarea>
+    <input type="hidden" name="parent_id" id="parent_id" value="">
+    <button type="submit" name="new_comment">Post</button>
+  </form>
+
+  <hr>
+
+  <!-- Display Comments -->
+  <div class="comments">
+    <?php render_comments(null, $comment_tree); ?>
+  </div>
+
+</div>
       </div>
 
       <aside class="related">
@@ -283,25 +301,7 @@ document.getElementById("search").addEventListener("keypress", function(e) {
     </form>
   </div>
 </div>
-<div class="comments-section">
 
-  <h2>Comments</h2>
-
-  <!-- New Comment Form -->
-  <form method="post" class="comment-form">
-    <textarea name="comment_text" placeholder="Write a comment..." required></textarea>
-    <input type="hidden" name="parent_id" id="parent_id" value="">
-    <button type="submit" name="new_comment">Post</button>
-  </form>
-
-  <hr>
-
-  <!-- Display Comments -->
-  <div class="comments">
-    <?php render_comments(null, $comment_tree); ?>
-  </div>
-
-</div>
 <script>
 function openModal() {
   document.getElementById("playlistModalBg").style.display = "flex";
