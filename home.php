@@ -1,7 +1,6 @@
 <?php
-session_start();
 include "database.php";
-
+session_start();
 // fetch latest videos
 $sql = "SELECT id, title, thumbnail_path, file_path FROM videos ORDER BY upload_date DESC LIMIT 24";
 $res = mysqli_query($conn, $sql);
