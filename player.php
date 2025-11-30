@@ -92,8 +92,11 @@ $comments = mysqli_query($conn,
 // Build nested structure
 $comment_tree = [];
 while ($c = mysqli_fetch_assoc($comments)) {
-    $comment_tree[$c["parent_id"]][] = $c;
+    $parent = $c["parent_id"] ?? 0; 
+    if ($parent === NULL) $parent = 0;
+    $comment_tree[$parent][] = $c;
 }
+
 function render_comments($parent_id, $tree) {
     if (!isset($tree[$parent_id])) return;
 
