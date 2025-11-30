@@ -118,7 +118,7 @@ document.getElementById("search").addEventListener("keypress", function(e) {
 });
 </script>
         <div class="profile">
-          <div class="avatar"></div>
+          <div class="avatar"><img src="Isaac.png"></div>
           <div class="profile-name">
     <?= htmlspecialchars($_SESSION["username"] ?? "Guest") ?>
 </div>
