@@ -169,9 +169,7 @@ body{margin:0;font-family: 'Helvetica Neue', Arial, sans-serif;background:var(--
 .reply-btn:hover {
     text-decoration: underline;
 }
-.comments, .comment-level, .comment-box {
-    display: block !important;
-}
+
 /* --------------------------
    COMMENT SECTION (Modern)
    -------------------------- */
